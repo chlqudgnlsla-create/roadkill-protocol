@@ -1,0 +1,11 @@
+# local test harness and build output
+.test/
+dist/
+__pycache__/
+# raw AI renders (tens of MB); the game uses the processed sprites in assets/
+art/sprites/raw/
+art/sprites/*.jpg
+art/drafts/*.png
+art/drafts/*.jpg
+art/drafts/gen.log
+art/sprites/gen.log

@@ -1,0 +1,122 @@
+<title>로드킬 프로토콜 에셋 시안</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;600&display=swap">
+<style>
+/* Layout: a review board in the game's own garage colors; asset rows read across, art directions read down */
+:root {
+  --asphalt: #17191c;
+  --panel: #1f2226;
+  --line: #3b4047;
+  --fg: #ece6d8;
+  --muted: #a29b8e;
+  --hazard: #f2c01c;
+  --rust: #e0582b;
+  --f-display: "Black Han Sans", "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --f-body: "IBM Plex Sans KR", system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+body { background: var(--asphalt); color: var(--fg); font-family: var(--f-body); margin: 0; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 16px; padding-block: 0 56px; }
+.stripe { height: 12px; background: repeating-linear-gradient(-45deg, var(--hazard) 0 12px, var(--asphalt) 12px 24px); }
+header { display: grid; gap: 12px; padding-block: 28px 24px; }
+.eyebrow { font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; }
+h1, h2, h3 { margin: 0; font-family: var(--f-display); font-weight: 400; line-height: 1.1; text-wrap: balance; }
+h1 { font-size: clamp(34px, 6vw, 56px); color: var(--hazard); }
+.lede { margin: 0; max-width: 64ch; line-height: 1.7; font-size: 15px; }
+.meta { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+
+.styles, .row .cells { display: grid; grid-template-columns: 140px repeat(3, minmax(0, 1fr)); gap: 12px; }
+.styles { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--asphalt); padding-block: 12px; border-bottom: 1px solid var(--line); }
+.style { display: grid; gap: 4px; min-width: 0; }
+.style h2 { font-size: 20px; display: flex; gap: 8px; align-items: baseline; }
+.style h2 code { font-family: var(--f-mono); font-size: 13px; color: var(--asphalt); background: var(--hazard); padding: 0 6px; }
+.style p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+.row { padding-block: 20px; border-bottom: 1px solid var(--line); }
+.rowhead { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.rowhead h3 { font-size: 18px; }
+.rowhead p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
+.shot { display: block; padding: 0; border: 1px solid var(--line); background: var(--panel); cursor: zoom-in; min-width: 0; }
+.shot:hover, .shot:focus-visible { border-color: var(--hazard); outline: none; }
+.shot img { display: block; width: 100%; height: auto; max-width: 100%; }
+.shot .tag { display: none; }
+
+dialog { border: 1px solid var(--line); background: var(--panel); color: var(--fg); padding: 0; max-width: min(96vw, 1400px); max-height: 94vh; }
+dialog::backdrop { background: rgba(10,11,13,.85); }
+dialog img { display: block; max-width: 100%; max-height: calc(94vh - 52px); width: auto; height: auto; margin: 0 auto; }
+dialog .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 14px; font-size: 13px; }
+dialog button { font: 600 13px var(--f-body); color: var(--fg); background: transparent; border: 1px solid var(--line); padding: 6px 12px; cursor: pointer; }
+button:focus-visible { outline: 2px solid var(--hazard); outline-offset: 2px; }
+
+@media (max-width: 760px) {
+  .styles { display: none; }
+  .row .cells { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; padding-bottom: 6px; }
+  .rowhead { grid-column: auto; }
+  .row .cells > .rowhead { position: sticky; left: 0; }
+  .shot .tag { display: block; font-family: var(--f-mono); font-size: 11px; color: var(--muted); text-align: left; padding: 6px 8px; }
+}
+</style>
+
+<div class="stripe"></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">로드킬 프로토콜 · 아트 방향 1차 시안</div>
+    <h1>에셋 시안 3종</h1>
+    <p class="lede">같은 에셋 목록을 세 가지 그림체로 뽑았습니다. 가로로 보면 같은 에셋을 그림체끼리 비교할 수 있고, 세로로 보면 한 그림체가 게임 전체에서 어떻게 어울리는지 볼 수 있습니다. 이미지를 누르면 크게 보입니다.</p>
+    <div class="meta">Qwen-Image 2.1 · 로컬 ComfyUI · 25 steps · cfg 3 · seed 20261011</div>
+  </header>
+
+  <div class="styles" aria-hidden="true">
+    <div></div>
+    <div class="style"><h2><code>A</code>녹슨 황무지</h2><p>손으로 칠한 듯한 거친 질감, 녹과 먼지, 지금 게임의 아스팔트와 경고 노랑에 가장 가까움</p></div>
+    <div class="style"><h2><code>B</code>미니카 토이</h2><p>장난감 미니카 같은 3D 렌더, 둥글고 밝은 색, 실루엣이 가장 또렷함</p></div>
+    <div class="style"><h2><code>C</code>픽셀 아트</h2><p>32비트 시절 아케이드 도트, 제한된 색과 외곽선, 캔버스 렌더링과 궁합이 좋음</p></div>
+  </div>
+
+  <main id="rows"></main>
+</div>
+
+<dialog id="viewer">
+  <div class="bar"><span id="viewerCap"></span><button type="button" id="viewerClose">닫기</button></div>
+  <img id="viewerImg" alt="">
+</dialog>
+
+<script>
+(() => {
+  const STYLES = { A: '녹슨 황무지', B: '미니카 토이', C: '픽셀 아트' };
+  const ROWS = [
+    ['cars', '차량 5종', '해치백, 머슬카, 버기, 덤프트럭, 스쿨버스. 세 그림체 모두 위에서 내려다본 구도가 잘 나와 그대로 스프라이트로 쓸 만합니다.'],
+    ['enemies', '적과 보스', '좀비, 구울, 거구, 산성 좀비, 약탈자 트럭. A와 B에는 요청하지 않은 작은 차가 섞였고, 좀비는 위가 아니라 비스듬한 정면 구도입니다.'],
+    ['items', '아이템과 소품', '상자, 드럼통, 수리 키트, 자석, 니트로, 폭탄, 고철, 지뢰, 톱날, 휠캡. 세 장 모두 차가 끼어들어서, 실제 제작 땐 아이템을 한 장에 한두 개씩 따로 뽑아야 합니다.'],
+    ['ground', '바닥 타일', '반복해서 깔 아스팔트와 모래 바닥. 이음새 없이 반복되는지는 아직 확인 전입니다.'],
+    ['key', '키 아트', '시작 화면과 썸네일에 쓸 대표 이미지. C는 도트보다는 매끈한 렌더에 가깝게 나왔습니다.'],
+  ];
+  const rows = document.getElementById('rows');
+  for (const [id, name, note] of ROWS) {
+    const sec = document.createElement('section');
+    sec.className = 'row';
+    sec.id = id;
+    let h = `<div class="cells"><div class="rowhead"><h3>${name}</h3><p>${note}</p></div>`;
+    for (const s in STYLES) {
+      h += `<button type="button" class="shot" data-src="drafts/web/${s}_${id}.webp" data-cap="${s} ${STYLES[s]} · ${name}">
+        <img src="drafts/web/${s}_${id}.webp" alt="${STYLES[s]} 그림체의 ${name} 시안" loading="lazy">
+        <span class="tag">${s} ${STYLES[s]}</span></button>`;
+    }
+    sec.innerHTML = h + '</div>';
+    rows.appendChild(sec);
+  }
+  const dlg = document.getElementById('viewer');
+  rows.addEventListener('click', e => {
+    const b = e.target.closest('.shot');
+    if (!b) return;
+    document.getElementById('viewerImg').src = b.dataset.src;
+    document.getElementById('viewerImg').alt = b.dataset.cap;
+    document.getElementById('viewerCap').textContent = b.dataset.cap;
+    dlg.showModal();
+  });
+  document.getElementById('viewerClose').addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+})();
+</script>
