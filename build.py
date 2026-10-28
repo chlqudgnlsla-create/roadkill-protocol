@@ -5,13 +5,48 @@ Adds the document shell the artifact viewer normally provides, a web app manifes
 so phones can add it to the home screen, and copies assets/.
     python3 build.py
 Then serve dist/ with any static host (GitHub Pages, nginx, `python3 -m http.server -d dist`).
+
+    python3 build.py --app
+builds dist-app/ for the Android app instead: Google Fonts are downloaded (cached in .cache/fonts)
+and served from the app itself, so the game runs fully offline.
 """
 import json
 import os
+import re
 import shutil
+import sys
+import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DIST = os.path.join(HERE, "dist")
+APP = "--app" in sys.argv
+DIST = os.path.join(HERE, "dist-app" if APP else "dist")
+FONT_CACHE = os.path.join(HERE, ".cache", "fonts")
+UA = "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Mobile Safari/537.36"
+
+
+def localize_fonts(head):
+    """Replace the Google Fonts stylesheet link with a local copy of the CSS and its woff2 files."""
+    m = re.search(r'<link rel="stylesheet" href="(https://fonts.googleapis.com/[^"]+)">', head)
+    if not m:
+        return head
+    os.makedirs(FONT_CACHE, exist_ok=True)
+    css_path = os.path.join(FONT_CACHE, "fonts.css")
+    if not os.path.exists(css_path):
+        req = urllib.request.Request(m.group(1).replace("&amp;", "&"), headers={"User-Agent": UA})
+        css = urllib.request.urlopen(req, timeout=30).read().decode()
+        def fetch(u):
+            name = re.sub(r"[^A-Za-z0-9._-]", "_", u.split("/s/", 1)[-1])
+            dst = os.path.join(FONT_CACHE, name)
+            if not os.path.exists(dst):
+                with urllib.request.urlopen(urllib.request.Request(u, headers={"User-Agent": UA}), timeout=30) as r, open(dst, "wb") as f:
+                    f.write(r.read())
+            return name
+        css = re.sub(r"url\((https://fonts\.gstatic\.com/[^)]+)\)", lambda mm: f"url({fetch(mm.group(1))})", css)
+        open(css_path, "w", encoding="utf-8").write(css)
+    shutil.copytree(FONT_CACHE, os.path.join(DIST, "fonts"))
+    head = head.replace(m.group(0), '<link rel="stylesheet" href="fonts/fonts.css">')
+    head = re.sub(r'<link rel="preconnect"[^>]*>\n?', "", head)
+    return head
 
 src = open(os.path.join(HERE, "index.html"), encoding="utf-8").read()
 cut = src.index("</style>") + len("</style>")
@@ -43,6 +78,8 @@ page = f"""<!doctype html>
 if os.path.exists(DIST):
     shutil.rmtree(DIST)
 os.makedirs(os.path.join(DIST, "icons"))
+if APP:
+    page = localize_fonts(page)
 open(os.path.join(DIST, "index.html"), "w", encoding="utf-8").write(page)
 shutil.copytree(os.path.join(HERE, "assets"), os.path.join(DIST, "assets"))
 

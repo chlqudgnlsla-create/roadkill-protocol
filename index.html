@@ -4384,6 +4384,16 @@ addEventListener('keydown', e => {
   }
   if (code === 'KeyM') setMute(!SND.muted);
 }, true);
+// Android app: the hardware back button asks the game first; false means "nothing to back out of" (the app may close)
+window.__appBack = () => {
+  const st = G.state;
+  if (st === 'play') { pause(true); return true; }
+  if (st === 'paused') { pause(false); return true; }
+  if (st === 'levelup' || st === 'choice') return true;
+  if (st === 'over') { goHub(); return true; }
+  if (st === 'menu' && panel !== 'start') { showPanel('start'); return true; }
+  return false;
+};
 addEventListener('keyup', e => {
   const k = KEYMAP[e.code];
   if (k) keys[k] = false;

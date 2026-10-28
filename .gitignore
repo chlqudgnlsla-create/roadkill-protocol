@@ -9,3 +9,12 @@ art/drafts/*.png
 art/drafts/*.jpg
 art/drafts/gen.log
 art/sprites/gen.log
+# app build
+dist-app/
+.cache/
+*.apk
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/app/src/main/assets/www/
