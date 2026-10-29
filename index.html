@@ -434,6 +434,60 @@ kbd {
   .toast { animation: none; }
   #xpFill { transition: none; }
 }
+
+/* ---------- Phone home screen: one full screen, no scrolling ----------
+   title + wallet on top, region and vehicle strips swipe sideways, actions pinned to the bottom */
+body.touch #mStart { padding: 0; place-items: stretch; overflow: hidden; }
+body.touch #mStart .sheet { width: 100%; height: 100%; max-height: 100%; display: flex; flex-direction: column; border: 0; box-shadow: none; }
+body.touch #mStart .stripe { height: 8px; flex: none; }
+body.touch #mStart .sheetBody {
+  flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; overflow: hidden;
+  padding: calc(8px + env(safe-area-inset-top, 0px)) calc(16px + env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) calc(16px + env(safe-area-inset-left, 0px));
+}
+body.touch #mStart .lede, body.touch #mStart .keys, body.touch #mStart .note { display: none; }
+body.touch.portrait #mStart .rotateHint { display: block; }
+body.touch #mStart .headRow { flex-wrap: nowrap; align-items: center; gap: 10px; }
+body.touch #mStart .headRow > div { gap: 2px; }
+body.touch #mStart .eyebrow { font-size: 10px; }
+body.touch #mStart h1 { font-size: clamp(22px, 6vw, 30px); white-space: nowrap; }
+body.touch #mStart .wallet { padding: 3px 10px; flex: none; }
+body.touch #mStart .wallet b { font-size: 16px; }
+body.touch #mStart .sectionHead h3 { font-size: 13px; }
+body.touch #mStart .sectionHead .hint { display: none; }
+body.touch .maps, body.touch .cars {
+  grid-template-columns: none; grid-auto-flow: column; overflow-x: auto; overflow-y: hidden; gap: 6px;
+  padding-bottom: 2px; scrollbar-width: none; flex: none; touch-action: pan-x;
+}
+body.touch .maps::-webkit-scrollbar, body.touch .cars::-webkit-scrollbar { display: none; }
+body.touch .maps { grid-auto-columns: 168px; }
+body.touch .mapc { padding: 6px 8px; gap: 2px; border-top-width: 3px; }
+body.touch .mapc .mname { font-size: 13px; }
+body.touch .mapc .mstats { font-size: 10px; line-height: 1.4; }
+body.touch .mapc .mstats br { display: none; }
+.mapc .sep { display: none; }
+body.touch .mapc .sep { display: inline; }
+body.touch .mapc .mdesc { font-size: 10.5px; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+body.touch .mapc .only, body.touch .mapc .lock {
+  font-size: 10.5px; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+body.touch .cars { grid-auto-columns: 214px; }
+body.touch .car { grid-template-columns: 84px minmax(0, 1fr); column-gap: 8px; row-gap: 2px; padding: 6px 8px; align-items: center; }
+body.touch .car canvas { grid-row: 1 / span 3; width: 84px; }
+body.touch .car .cname { font-size: 14px; }
+body.touch .car .rate { display: none; }
+body.touch .car .startw { font-size: 11px; }
+body.touch .car .trait, body.touch .car .lock { font-size: 10.5px; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+body.touch #mStart .actions { margin-top: auto; flex-wrap: nowrap; gap: 8px; }
+body.touch #mStart .go { font-size: 19px; padding: 9px 18px; }
+body.touch #mStart .ghost { padding: 8px 12px; font-size: 13px; white-space: nowrap; }
+body.touch #mStart .ghost kbd, body.touch #mStart .go small { display: none; }
+body.touch #mStart .best { font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+/* pause and results: buttons above the details so they never need a scroll to reach */
+body.touch #mPause .actions, body.touch #mOver .actions { order: 1; }
+body.touch #mPause .note, body.touch #mPause .build, body.touch #mOver .results, body.touch #mOver .earn, body.touch #mOver .unlocks { order: 2; }
+body.touch.land .modal { padding: calc(8px + env(safe-area-inset-top, 0px)) 16px calc(8px + env(safe-area-inset-bottom, 0px)); }
+body.touch.land .sheetBody { padding: 14px 18px; gap: 10px; }
+body.touch.land h2 { font-size: 24px; }
 </style>
 
 <canvas id="game" aria-label="게임 화면"></canvas>
@@ -4019,7 +4073,7 @@ function renderMaps() {
     const lockMap = M.unlock && MAP_IDS.find(k => MAPS[k].clear === M.unlock);
     return `<button type="button" class="mapc${sel ? ' sel' : ''}${open ? '' : ' locked'}" data-map="${id}" style="--mc:${MAP_COLOR[id]}" aria-pressed="${sel}"${open ? '' : ' aria-disabled="true"'}>
       <div class="mname">${n + 1}. ${M.name}${sel ? '<small>선택됨</small>' : PROFILE.missions[M.clear] ? '<small>완주</small>' : ''}</div>
-      <div class="mstats">목표 ${fmtTime(M.time)} · 적 체력 ×${M.hp}<br>고철 ×${M.scrap}</div>
+      <div class="mstats">목표 ${fmtTime(M.time)} · 적 체력 ×${M.hp}<br><span class="sep"> · </span>고철 ×${M.scrap}</div>
       ${open ? `<div class="mdesc">${M.desc}</div>` : `<div class="lock">「${MAPS[lockMap].name}」 완주 필요</div>`}
       ${only.length ? `<div class="only"><b>여기서만:</b> ${only.join(' · ')}</div>` : ''}
     </button>`;

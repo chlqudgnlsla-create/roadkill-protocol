@@ -107,7 +107,7 @@ manifest = {
     "start_url": "./",
     "scope": "./",
     "display": "fullscreen",
-    "orientation": "any",
+    "orientation": "landscape",
     "background_color": "#17191c",
     "theme_color": "#17191c",
     "icons": [
